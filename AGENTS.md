@@ -416,6 +416,26 @@ These are the first important files for bootstrap.
 
 Until explicitly changed, the bootstrap contract is frozen.
 
+### Live bootstrap API contract
+
+Current live bootstrap route:
+
+- `GET /demo/quadratic`
+
+Current live bootstrap payload:
+
+- keep aligned with the checked-in backend implementation and tests
+
+Do not upgrade the bootstrap contract implicitly.
+Any move to a richer contract must be done deliberately across:
+
+- backend route
+- schemas
+- frontend fetch helper
+- frontend render
+- backend tests
+- `docs/contracts/bootstrap_api.md`
+
 ### `GET /health`
 
 Returns:
@@ -424,54 +444,52 @@ Returns:
 { "status": "ok" }
 ```
 
-### `POST /demo/quadratic`
+### `GET /demo/quadratic`
 
-Returns a hardcoded payload shaped like:
+Returns the current live bootstrap payload shaped like:
 
 ```json
 {
-  "input": "x^2 - 5x + 6 = 0",
-  "normalized": "x^2 - 5x + 6 = 0",
+  "prompt": "Solve x^2 - 5x + 6 = 0.",
+  "equation": "x^2 - 5x + 6 = 0",
+  "factored_form": "(x - 2)(x - 3) = 0",
   "roots": [2, 3],
-  "vertex": {
-    "x": 2.5,
-    "y": -0.25
-  },
-  "axis_of_symmetry": "x = 2.5",
-  "opening_direction": "up",
   "trust_checks": [
     {
-      "code": "intent_recognized",
-      "label": "Intent recognized",
-      "passed": true
+      "id": "factorization",
+      "label": "Factorization matches the polynomial",
+      "status": "pass",
+      "detail": "Expanding (x - 2)(x - 3) reproduces x^2 - 5x + 6."
     },
     {
-      "code": "symbolic_solve_passed",
-      "label": "Symbolic solve passed",
-      "passed": true
+      "id": "substitution",
+      "label": "Roots satisfy the original equation",
+      "status": "pass",
+      "detail": "Substituting x = 2 and x = 3 makes the left side equal 0."
     },
     {
-      "code": "graph_matches_equation",
-      "label": "Graph matches equation",
-      "passed": true
+      "id": "solver",
+      "label": "Symbolic solve engine",
+      "status": "pending",
+      "detail": "Real solve logic is intentionally out of scope for Milestone 0."
     }
-  ],
-  "steps": [
-    "Recognize the quadratic is factorable.",
-    "Rewrite as (x - 2)(x - 3) = 0.",
-    "Set each factor equal to zero.",
-    "Solve x = 2 or x = 3."
   ]
 }
 ```
 
-### Trust check vocabulary for bootstrap
+### Planned richer bootstrap contract
+
+The richer quadratic payload is a planned upgrade, not current live truth.
+Document planned upgrades in `docs/contracts/bootstrap_api.md` and only promote
+them when backend, frontend, tests, and docs are updated together.
+
+### Trust check vocabulary for the current live bootstrap payload
 
 Use these names:
 
-- `intent_recognized`
-- `symbolic_solve_passed`
-- `graph_matches_equation`
+- `factorization`
+- `substitution`
+- `solver`
 
 Do not invent new trust labels during bootstrap unless explicitly asked.
 
