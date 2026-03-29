@@ -1,0 +1,1 @@
+"""Trust-check helpers."""

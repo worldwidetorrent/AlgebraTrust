@@ -1,0 +1,8 @@
+{
+  "examples": [
+    {
+      "prompt": "Solve x^2 - 5x + 6 = 0.",
+      "equation": "x^2 - 5x + 6 = 0"
+    }
+  ]
+}
