@@ -9,7 +9,7 @@ visuals, and work through problems without needing paper.
 AlgebraTrust is intended to become a semester-long companion for college
 algebra, aligned to the structure of a real course textbook.
 
-The long-term goal is to support students across the full course with:
+The long-term goal is to support students across the course with:
 
 - natural-language question input
 - guided problem solving
@@ -18,21 +18,20 @@ The long-term goal is to support students across the full course with:
 - trust checks on mathematical correctness
 - a smooth no-paper workspace
 
-## Current Implementation Focus
+## Current Build Focus
 
 The product vision is semester-long.
 
-The current build focus is intentionally narrow.
+The current implementation focus is intentionally narrow: the quadratic lane.
 
-### First Deep Support Lane
+### First deep support lane
 
 - quadratic equations
 - quadratic functions
 - factoring support where needed
 - graph-based understanding of parabolas
 
-This is the first fully implemented instructional lane because it gives the
-strongest combination of:
+This lane comes first because it offers the strongest combination of:
 
 - clear student value
 - strong visual learning moments
@@ -44,7 +43,7 @@ strongest combination of:
 
 Students often do not ask questions in class because they feel embarrassed.
 
-Many existing digital math tools also introduce friction:
+Many existing digital math tools also create extra friction:
 
 - awkward math input
 - too many disconnected tools
@@ -55,33 +54,33 @@ Many existing digital math tools also introduce friction:
 AlgebraTrust is designed to reduce that friction and create a smoother path
 from confusion to understanding.
 
-## Core Product Principles
+## Product Principles
 
-### 1. Visual-First Learning
+### Visual-first learning
 
 Graphs are not a side feature. They are a primary teaching surface.
 
-### 2. Trust-Checked Output
+### Trust-checked output
 
 The system should not merely answer. It should show which checks passed.
 
-### 3. Structured Guidance
+### Structured guidance
 
 The experience should feel like a guided workspace, not an open-ended chatbot
 transcript.
 
-### 4. No-Paper Workflow
+### No-paper workflow
 
 Students should be able to type, explore, and validate math digitally in one
 place.
 
-### 5. Build Depth Before Breadth
+### Build depth before breadth
 
 A small number of topics should work well before the curriculum expands.
 
-## Current MVP Scope
+## What Is In Scope Right Now
 
-### In Scope Now
+### Instructional scope
 
 - quadratic equations
 - quadratic functions
@@ -91,13 +90,13 @@ A small number of topics should work well before the curriculum expands.
 - visible trust checks
 - two-panel workspace UI
 
-### Core User Interactions
+### Core interactions
 
-- Solve with me
-- Visualize this
-- Check my work
+- **Solve with me**
+- **Visualize this**
+- **Check my work**
 
-### Graph Features In The First Version
+### Graph features in the first version
 
 - vertex
 - roots
@@ -105,7 +104,7 @@ A small number of topics should work well before the curriculum expands.
 - opening direction
 - coefficient sliders
 
-## Out Of Scope Right Now
+## What Is Out of Scope Right Now
 
 These are intentionally deferred:
 
@@ -129,28 +128,26 @@ That means:
 - do not widen the curriculum without a clear milestone decision
 - do not add major infrastructure early unless it directly supports the first
   lane
-- do not dilute the main flow with extra features that are not needed for the
-  first working version
+- do not dilute the main flow with features that are not needed for the first
+  working version
 
-The first goal is not "cover the whole textbook."
+The first goal is not to cover the whole textbook.
 
-The first goal is:
-
-> build one clean, trustworthy, visually strong instructional lane that proves
-> the product works
+The first goal is to build one clean, trustworthy, visually strong
+instructional lane that proves the product works.
 
 ## Expansion Policy
 
-New ideas are welcome, but they should be evaluated against the following rule.
+New ideas are welcome, but they should be evaluated against a simple rule.
 
-### Add Only If The New Idea Does One Of These
+### Add an idea now only if it:
 
 - strengthens the current quadratic lane
 - improves the shared workspace foundation
 - clearly prepares the next curriculum lane
 - improves trust, clarity, or usability without widening scope too early
 
-### Delay If The New Idea
+### Delay an idea if it:
 
 - introduces major complexity without helping the first lane
 - expands curriculum breadth before the first lane is strong
@@ -185,7 +182,7 @@ Expand into:
 
 - systems
 - inequalities
-- exponential/logarithmic topics
+- exponential and logarithmic topics
 - additional course units as justified
 
 ## Architecture Overview
@@ -202,7 +199,7 @@ Expand into:
 - Python
 - deterministic math engine
 
-### Math Engine
+### Math engine
 
 Handles:
 
@@ -211,7 +208,7 @@ Handles:
 - graph feature extraction
 - equation consistency checks
 
-### Language Layer
+### Language layer
 
 Used for:
 
@@ -220,7 +217,7 @@ Used for:
 - tutoring flow
 - interest-based framing
 
-The language layer is not the source of mathematical truth.
+The language layer is **not** the source of mathematical truth.
 
 ## Repository Structure
 
@@ -248,18 +245,7 @@ Bootstrap the full pipe:
 - CORS works
 - baseline tests pass
 
-### Current Repository Status
-
-The repository currently implements the Milestone 0 bootstrap slice:
-
-- Next.js frontend shell in `apps/web`
-- FastAPI backend in `services/api`
-- `/health` route
-- hardcoded `/demo/quadratic` payload
-- two-panel frontend render of the demo payload
-- backend tests for health, demo payload, and CORS preflight
-
-### After Bootstrap
+### After bootstrap
 
 - deterministic quadratic math core
 - graph spike
@@ -268,29 +254,36 @@ The repository currently implements the Milestone 0 bootstrap slice:
 - language layer
 - polish
 
-## Development Rule
+## Repository Status
 
-When there is tension between:
+The repository is currently being built around the Milestone 0 bootstrap slice
+and the first instructional lane.
 
-- expanding the idea
-- finishing the first lane cleanly
+Target bootstrap deliverables:
 
-choose: finish the first lane cleanly
+- Next.js frontend shell in `apps/web`
+- FastAPI backend in `services/api`
+- `/health` route
+- hardcoded `/demo/quadratic` payload
+- two-panel frontend render of the demo payload
+- backend tests for health and demo contract
 
-## Current North Star
+## Prerequisites
 
-AlgebraTrust should become a semester-long college algebra workspace.
+Recommended local environment:
 
-But the current north star is narrower and more actionable:
-
-> build a visually strong, trust-checked quadratic learning workspace that
-> proves the larger product direction
+- Node.js
+- pnpm
+- Python 3.11+
+- `uv`
+- WSL on Windows is recommended for the cleanest development flow
 
 ## Local Development
 
 ### Web
 
 ```bash
+corepack enable
 corepack pnpm install
 corepack pnpm --dir apps/web dev
 ```
@@ -313,8 +306,23 @@ source .venv/bin/activate
 uv run pytest
 ```
 
+## Development Rule
+
+When there is tension between expanding the idea and finishing the first lane
+cleanly, choose:
+
+**finish the first lane cleanly**
+
+## Current North Star
+
+AlgebraTrust should become a semester-long college algebra workspace.
+
+But the current north star is narrower and more actionable:
+
+> build a visually strong, trust-checked quadratic learning workspace that
+> proves the larger product direction
+
 ## Status
 
-This repo is currently being built around the first instructional lane and the
-shared workspace foundations needed to grow into a broader semester-long
-product.
+This repo is being built around the first instructional lane and the shared
+workspace foundations needed to grow into a broader semester-long product.
